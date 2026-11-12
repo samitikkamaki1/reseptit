@@ -81,9 +81,9 @@ export default function Reseptit() {
             {meal.strCategory} · {meal.strArea}
           </p>
           <Button
-            variant={favorite ? "outline-danger" : "danger"} 
+            variant={favorite ? "outline-danger" : "danger"}  // napin väri ja teksti vaihtuu sen mukaan onko jo suosikki vai ei
             onClick={handleFavorite}
-            aria-pressed={favorite} 
+            aria-pressed={favorite}// kertoo ruudunlukijalle onko nappi päällä
           >
             {favorite ? "Poista suosikeista" : "Lisää suosikkeihin"}
           </Button>
@@ -94,7 +94,7 @@ export default function Reseptit() {
         <Col md={4}>
           <h2 className="h4">Ainesosat</h2>
           <ListGroup>
-            {ingredients.map((item) => (
+            {ingredients.map((item) => ( // map käy listan läpi ja tekee jokaisesta ainesosasta oman rivin
               <ListGroup.Item key={item.name}>
                 {item.measure} {item.name}
               </ListGroup.Item>
