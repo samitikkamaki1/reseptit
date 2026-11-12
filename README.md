@@ -1,59 +1,72 @@
-RESEPTISELAIN
+# Reseptiselain
 
-Reseptiselain on React-sovellus, jolla voi hakea ruokareseptejä, katsoa reseptin ainesosat ja valmistusohjeen sekä tallentaa suosikkireseptejä omalle suosikkisivulle. Sovellus on tehty kenelle tahansa, joka etsii ideoita ruoanlaittoon.
+Tämä on kurssin loppuprojekti. Sovelluksella voi hakea ruokareseptejä, katsoa reseptin ainesosat ja ohjeen sekä tallentaa omia suosikkeja.
 
-**Julkaistu sovellus:** https://samitikkamaki1.github.io/reseptit/
-**Repositorio:** https://github.com/samitikkamaki1/reseptit
+Julkaistu sivu: https://samitikkamaki1.github.io/reseptit/
 
-## Näkymät
+GitHub-repositorio: https://github.com/samitikkamaki1/reseptit
 
-1. **Haku** (`/`): hae reseptejä nimellä ja selaa tuloksia korteilla.
-2. **Reseptin tiedot** (`/recipe/:id`): kuva, ainesosat, valmistusohje ja suosikkeihin lisäys.
-3. **Omat suosikit** (`/favorites`): tallennetut reseptit, joita voi myös poistaa.
+## Mitä sovellus tekee
 
-## Käytetyt tekniikat ja kirjastot
+Sovelluksessa on kolme sivua:
 
-- [React](https://react.dev/) ja [Vite](https://vite.dev/): sovelluksen pohja ja kehityspalvelin
-- [react-bootstrap](https://react-bootstrap.github.io/) ja [Bootstrap](https://getbootstrap.com/): tyylit ja responsiiviset komponentit
-- [react-router-dom](https://reactrouter.com/): siirtyminen näkymien välillä
-- [react-hot-toast](https://react-hot-toast.com/): ilmoitukset (esim. "Lisätty suosikkeihin")
-- [gh-pages](https://www.npmjs.com/package/gh-pages): julkaisu GitHub Pagesiin
-- [TheMealDB](https://www.themealdb.com/api.php): ilmainen REST API, josta reseptit haetaan (`fetch` ja `async/await`). Käytössä on ilmainen testiavain `1`.
+1. Haku: reseptejä haetaan hakusanalla englanniksi(esim. chicken tai pasta).
+2. Reseptin tiedot: näyttää kuvan, ainesosat ja valmistusohjeen. Sieltä reseptin voi lisätä suosikkeihin.
+3. Omat suosikit: näyttää tallennetut reseptit, ja niitä voi poistaa.
 
-## Ajaminen paikallisesti
+Suosikit tallentuvat selaimen localStorageen, joten ne säilyvät, vaikka sivun sulkisi.
 
-Tarvitset koneelle [Node.js](https://nodejs.org/):n (LTS-versio).
+## Käytetyt kirjastot ja API
 
-1. Lataa projekti:
-   ```bash
-   git clone https://github.com/samitikkamaki1/reseptit.git
-   cd reseptit
-   ```
-2. Asenna riippuvuudet:
-   ```bash
-   npm install
-   ```
-3. Käynnistä kehityspalvelin:
-   ```bash
-   npm run dev
-   ```
-4. Avaa selaimessa terminaalin näyttämä osoite, yleensä `http://localhost:5173/`.
+- React ja Vite: sovelluksen pohja
+- react-bootstrap ja Bootstrap: ulkoasu ja responsiivisuus
+- react-router-dom: sivujen välillä liikkuminen
+- react-hot-toast: pienet ilmoitukset, esim. "Lisätty suosikkeihin"
+- gh-pages: sivun julkaisu GitHub Pagesiin
+- TheMealDB (https://www.themealdb.com/api.php): ilmainen API, josta reseptit haetaan
 
-## Julkaisu GitHub Pagesiin
+## Näin sovelluksen saa käyntiin omalla koneella
 
-```bash
+Koneella pitää olla asennettuna Node.js.
+
+1. Lataa projekti koneelle:
+
+```
+git clone https://github.com/samitikkamaki1/reseptit.git
+```
+
+2. Mene projektin kansioon:
+
+```
+cd reseptit
+```
+
+3. Asenna tarvittavat paketit:
+
+```
+npm install
+```
+
+4. Käynnistä sovellus:
+
+```
+npm run dev
+```
+
+5. Avaa selaimessa osoite, jonka terminaali näyttää (yleensä http://localhost:5173/).
+
+## Julkaisu
+
+Sivu julkaistaan GitHub Pagesiin tällä komennolla:
+
+```
 npm run deploy
 ```
 
-Komento rakentaa sovelluksen (`npm run build`) ja julkaisee `dist`-kansion `gh-pages`-haaraan.
+## Tiedostot
 
-## Rakenne
-
-```
-src/
-  Sivut/          Aloitussivu, Reseptit ja Suosikit (kolme näkymää)
-  api.jsx         TheMealDB-kutsut (haku ja yksittäinen resepti)
-  useFavorites.js suosikkien tallennus selaimen localStorageen
-  App.jsx         navigaatio ja reitit
-  main.jsx        sovelluksen käynnistys (HashRouter)
-``` 
+- src/Sivut: kolme sivua (Aloitussivu, Reseptit, Suosikit)
+- src/API.jsx: tässä haetaan tiedot TheMealDB:stä
+- src/useFavorites.js: suosikkien tallennus ja poisto
+- src/App.jsx: yläpalkki ja sivujen reitit
+- src/main.jsx: sovelluksen käynnistys
