@@ -11,21 +11,21 @@ export default function Aloitussivu() {
   const [searched, setSearched] = useState(false); // onko tehty hakua, alussa ei ole
 
   async function handleSubmit(event) {
-    event.preventDefault();
-    const trimmed = query.trim();
-    if (!trimmed) return;
+    event.preventDefault(); // estää oletustoiminnon, joka lataa koko sivun uudestaan
+    const trimmed = query.trim(); // poistaa hakusanasta ylimääräiset välilyönnit alusta ja lopusta.
+    if (!trimmed) return; // lopettaa funktion jos kenttä on tyhjä
 
-    setLoading(true);
+    setLoading(true); // spinneri päälle
     setError("");
-    try {
+    try { // hakee reseptit rajapinnasta ja tallentaa ne tilaan. 
       const results = await searchMeals(trimmed);
       setMeals(results);
       setSearched(true);
-    } catch (err) {
+    } catch (err) { // jos haku epäonnistuu, heittää virheen, ja hyppää catch tilaan näyttämään sen
       setError("Reseptien haku epäonnistui. Tarkista verkkoyhteys ja yritä uudelleen.");
       setMeals([]);
-    } finally {
-      setLoading(false);
+    } finally { // suoritetaan aina, onnistui haku tai ei, jotta spinneri saadaan pois päältä
+      setLoading(false); // spinneri pois
     }
   }
 
