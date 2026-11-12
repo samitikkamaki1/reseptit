@@ -24,7 +24,7 @@ export default function Suosikit() {
         </Alert>
       ) : (
         <Row xs={1} sm={2} md={3} lg={4} className="g-4">
-          {favorites.map((meal) => (  {/* map käy suosikkilistan läpi ja tekee jokaisesta reseptistä oman kortin, meal on resepti listasta */}
+          {favorites.map((meal) => (  // map käy suosikkilistan läpi ja tekee jokaisesta reseptistä oman kortin, meal on resepti listasta
             <Col key={meal.idMeal}>
               <Card className="h-100"> 
                 <Link to={`/recipe/${meal.idMeal}`}>  {/* Kuva on linkki reseptin tietosivulle. Osoitteessa on reseptin id,
