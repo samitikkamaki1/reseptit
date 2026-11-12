@@ -31,12 +31,15 @@ export default function Aloitussivu() {
 
   return (
     <>
+        {/* Sivun otsikko */}
       <h1 className="mb-4">Hae reseptejä</h1>
-
+        {/* Hakulomake, kun käyttäjä painaa etsi tai enter, ajetaan handleSubmit */}
       <Form onSubmit={handleSubmit} className="d-flex gap-2 mb-4">
+        {/* Piilotettu otsikko ruudunlukijoille, jotta kenttä on saavutettava */}
         <Form.Label htmlFor="search" className="visually-hidden">
           Hakusana
         </Form.Label>
+        {/* Tekstikenttä, arvo tulee tilasta (query), ja päivittyy jokaisella kirjoitetulla merkillä  */}
         <Form.Control
           id="search"
           type="text"
@@ -44,11 +47,13 @@ export default function Aloitussivu() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
+        {/* Nappi on pois käytöstä haun aikana, jotta hakua ei voi lähettää kahdesti */}
         <Button type="submit" disabled={loading}>
           Etsi
         </Button>
       </Form>
 
+       {/* Spinneri näkyy vain, kun loading on tosi. visually-hidden-teksti on ruudunlukijoille */}
       {loading && (
         <div className="text-center my-4">
           <Spinner animation="border" role="status">
@@ -57,19 +62,27 @@ export default function Aloitussivu() {
         </div>
       )}
 
+      {/* Punainen virheilmoitus näkyy vain, jos error- tilassa on teksti */}
       {error && <Alert variant="danger">{error}</Alert>}
 
+      {/* "Ei löytynyt" näkyy vasta kun haku on tehty, se on valmis, virheitä ei ole eikä tuloksia ole */}
       {!loading && !error && searched && meals.length === 0 && (  
         <Alert variant="info">Reseptejä ei löytynyt. Kokeile toista hakusanaa. </Alert>
       )}
 
+       {/* Tulosruudukko: Row/Col määrittävät korttien määrän riviä kohti näytön koon mukaan
+          (1 pienellä näytöllä, 2, 3 ja 4 isommilla) */}
       <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+        {/* map käy reseptilistan läpi ja tekee jokaisesta reseptistä kortin.
+            key auttaa Reactia erottamaan kortit toisistaan */}
         {meals.map((meal) => (
           <Col key={meal.idMeal}>
+            {/* Koko kortti on linkki reseptin tietosivulle, osoitteessa on reseptin id */}
             <Card as={Link} to={`/recipe/${meal.idMeal}`} className="h-100 text-decoration-none">
               <Card.Img variant="top" src={meal.strMealThumb} alt={meal.strMeal} />
               <Card.Body>
                 <Card.Title>{meal.strMeal}</Card.Title>
+                 {/* Kategoria ja alkuperämaa rajapinnan tiedoista */}
                 <Card.Text className="text-muted">
                   {meal.strCategory} · {meal.strArea}
                 </Card.Text>
