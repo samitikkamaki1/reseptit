@@ -40,7 +40,7 @@ export default function Aloitussivu() {
         <Form.Control
           id="search"
           type="text"
-          placeholder="Hae ainesosilla tai reseptin nimellä (englanniksi)"
+          placeholder="Hae reseptin nimellä (englanniksi), esim chicken"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
