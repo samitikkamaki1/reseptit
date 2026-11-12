@@ -6,34 +6,37 @@ import { getMeal } from "../API";
 import useFavorites from "../useFavorites";
 
 export default function Reseptit() {
-  const { id } = useParams();
-  const [meal, setMeal] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const { isFavorite, toggleFavorite } = useFavorites();
+ 
+  const { id } = useParams(); // useParams lukee reseptin id:n osoitteesta /recipe/:id
+  const [meal, setMeal] = useState(null); // haettu resepti, alussa ei vielä mitään
+  const [loading, setLoading] = useState(true); // sivu alkaa lataustilasta
+  const [error, setError] = useState(""); // virheilmoituksen teksti jos haku ei onnistu
+  const { isFavorite, toggleFavorite } = useFavorites();   // suosikkien logiikka tulee omasta hookista
 
-  useEffect(() => {
-    let cancelled = false;
+  
+  useEffect(() => { // useEffect ajetaan, kun sivu avautuu ja aina kun id vaihtuu. Tällä haetaan resepti rajapinnasta.
+    let cancelled = false; // jos käyttäjä poistuu sivulta ennen kuin vastaus tulee,  tämä lippu estää tilan päivittämisen turhaan.
 
     async function load() {
       setLoading(true);
       setError("");
       try {
-        const result = await getMeal(id);
+        const result = await getMeal(id); // odotetaan että rajapinta vastaa
         if (!cancelled) setMeal(result);
-      } catch (err) {
+      } catch (err) { // jos haku epäonnistuu, käyttäjä näkee virheilmoituksen
         if (!cancelled) setError("Reseptin lataaminen epäonnistui. Yritä uudelleen.");
-      } finally {
+      } finally { // ajetaan aina, spinneri lähtee pois vaikka tulisi virhe
         if (!cancelled) setLoading(false);
       }
     }
 
     load();
-    return () => {
+    return () => { // siivous: ajetaan kun sivulta lähdetään pois
       cancelled = true;
     };
   }, [id]);
 
+  // Näytetään oikea viesti sen mukaan mikä tilanne on, ennen kuin näytetään itse resepti
   if (loading) {
     return (
       <div className="text-center my-5">
@@ -47,22 +50,22 @@ export default function Reseptit() {
   if (error) return <Alert variant="danger">{error}</Alert>;
   if (!meal) return <Alert variant="info">Reseptiä ei löytynyt.</Alert>;
 
-  // Rajapinta antaa ainesosat kentissä strIngredient1...strIngredient20
+  // Rajapinta antaa ainesosat kentissä strIngredient1...strIngredient20, Tässä ne kerätään yhdeksi listaksi, jotta ne saadaan näytettyä helposti.
   const ingredients = Array.from({ length: 20 }, (_, i) => ({
     name: meal[`strIngredient${i + 1}`],
     measure: meal[`strMeasure${i + 1}`],
-  })).filter((item) => item.name && item.name.trim());
+  })).filter((item) => item.name && item.name.trim()); // tyhjät ainesosat otetaan pois
 
   const steps = meal.strInstructions
-    .split(/\r?\n/)
+    .split(/\r?\n/)  // ohje tulee yhtenä isona tekstinä, joten pilkotaan se riveiksi
     .filter((line) => line.trim());
 
-  function handleFavorite() {
-    const added = toggleFavorite(meal);
+  function handleFavorite() { // kun suosikkinappia painaa, lisää tai poistaa suosikin
+    const added = toggleFavorite(meal); // palauttaa true jos lisättiin ja false jos poistettiin
     toast.success(added ? "Lisätty suosikkeihin" : "Poistettu suosikeista");
   }
 
-  const favorite = isFavorite(meal.idMeal);
+  const favorite = isFavorite(meal.idMeal); // tarkistetaan onko tää resepti jo suosikeissa
 
   return (
     <>
@@ -78,9 +81,9 @@ export default function Reseptit() {
             {meal.strCategory} · {meal.strArea}
           </p>
           <Button
-            variant={favorite ? "outline-danger" : "danger"}
+            variant={favorite ? "outline-danger" : "danger"} 
             onClick={handleFavorite}
-            aria-pressed={favorite}
+            aria-pressed={favorite} 
           >
             {favorite ? "Poista suosikeista" : "Lisää suosikkeihin"}
           </Button>
