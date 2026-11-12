@@ -4,10 +4,15 @@ import { Form, Button, Spinner, Alert, Row, Col, Card } from "react-bootstrap";
 import { searchMeals } from "../API";
 
 export default function Aloitussivu() {
+  // hakukentän teksti, alussa tyhjä
   const [query, setQuery] = useState("");
+  // löydetyt reseptit, alussa tyhjä
   const [meals, setMeals] = useState([]);
+  // onko haku käynnissä, alussa ei
   const [loading, setLoading] = useState(false);
+  // virhetilanne, alussa ei virhettä
   const [error, setError] = useState("");
+  // onko tehty hakua, alussa ei ole
   const [searched, setSearched] = useState(false);
 
   async function handleSubmit(event) {
