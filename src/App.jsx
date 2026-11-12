@@ -8,7 +8,7 @@ import Suosikit from "./Sivut/Suosikit.jsx";
 export default function App() {
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="sm">
+      <Navbar bg="dark" variant="dark" expand="sm"> {/* Yläpalkki näkyy joka sivulla. Link vaihtaa sivua ilman että koko sivu latautuu uudestaan. */}
         <Container>
           <Navbar.Brand as={Link} to="/">Reseptinhakukone!</Navbar.Brand>
           <Nav> 
@@ -19,14 +19,14 @@ export default function App() {
       </Navbar>
 
       <Container className="py-4">
-        <Routes>
+        <Routes> {/* Reitit kertoo mikä sivu näytetään missäkin osoitteessa */}
           <Route path="/" element={<Home />} />
-          <Route path="/recipe/:id" element={<Resepti />} />
+          <Route path="/recipe/:id" element={<Resepti />} /> {/* :id on muuttuja, johon tulee reseptin id osoitteesta */}
           <Route path="/Suosikit" element={<Suosikit />} />
         </Routes>
       </Container>
 
-      <Toaster />
+      <Toaster /> {/* tässä näytetään ilmoitukset (react-hot-toast) */}
     </>
   );
 }
